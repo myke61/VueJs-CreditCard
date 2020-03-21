@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<title>Credit Card</title>
+</head>
+<body>
+	<div id="app">
+
+		<div class="input-group mb-3">
+			<input  type="text" maxlength="7" v-on:keyup="nameFunction" class="form-control names" placeholder="Name">
+		</div>
+		<div class="input-group mb-3">
+			<input type="text" maxlength="7" v-on:keyup="surnameFunction" class="form-control names" placeholder="Surname">
+		</div>
+		<div class="input-group mb-3">
+			<input type="number" id="number" v-on:keyup="numberFunction" class="form-control" placeholder="Card Number" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+		</div>
+		<div class="input-group mb-3">
+			<input type="number" v-on:keyup="cvvFunction" id="cvv" class="form-control" placeholder="CVV"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+		</div>
+		<div class="input-group mb-3">
+			<select v-model="selectedMonth" class="form-control" style="margin-right: 3px;" name="month">
+				<option value="01">January</option>
+				<option value="02">February</option>
+				<option value="03">March</option>
+				<option value="04">April</option>
+				<option value="05">May</option>
+				<option value="06">June</option>
+				<option value="07">July</option>
+				<option value="08">August</option>
+				<option value="09">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select>
+			<select v-model="selectedYear" class="form-control" name="year">
+				<option value="20">2020</option>
+				<option value="21">2021</option>
+				<option value="22">2022</option>
+				<option value="23">2023</option>
+				<option value="24">2024</option>
+				<option value="25">2025</option>
+				<option value="26">2026</option>
+				<option value="27">2027</option>
+				<option value="28">2028</option>
+				<option value="29">2029</option>
+				<option value="30">2030</option>
+			</select>
+		</div>
+
+		<!--<h1 class="title">Hover Me!</h1>-->
+
+
+		<div class="card">
+		<div id="front" class="card__front card__part">
+			<img class="card__front-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
+			<img class="card__front-logo card__logo" src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
+			<p class="card_numer">{{cardNumber}}</p>
+			<div class="card__space-75">
+			<span class="card__label">Card holder</span>
+			<p id="names" class="card__info">{{Name}} {{Surname}}</p>
+			</div>
+			<div class="card__space-25">
+			<span class="card__label">Expires</span>
+					<p class="card__info">{{selectedMonth}}/{{selectedYear}}</p>
+			</div>
+		</div>
+		
+		<div id="back" class="card__back card__part">
+			<div class="card__black-line"></div>
+			<div class="card__back-content">
+			<div class="card__secret">
+				<p class="card__secret--last">{{CVV}}</p>
+			</div>
+			<img class="card__back-square card__square" src="https://image.ibb.co/cZeFjx/little_square.png">
+			<img class="card__back-logo card__logo" src="https://www.fireeye.com/partners/strategic-technology-partners/visa-fireeye-cyber-watch-program/_jcr_content/content-par/grid_20_80_full/grid-20-left/image.img.png/1505254557388.png">
+			
+			</div>
+		</div>
+		
+		</div>
+	</div>
+
+	<script src="vue.js"></script>
+	<script>
+		$("#cvv").focusin(function(){
+			$("#front").css("webkitTransform","rotateY(180deg)");
+			$("#back").css("webkitTransform","rotateY(0deg)");
+		});
+		$("#cvv").focusout(function(){
+			$("#front").css("webkitTransform","rotateY(0deg)");
+			$("#back").css("webkitTransform","rotateY(180deg)");
+		});
+		$('.names').focusin(function(){
+			$('#names').css("transform","scale(1.12)");
+		});
+		$('.names').focusout(function(){
+			$('#names').css("transform","scale(1.0)");
+		});
+		$('#number').focusin(function(){
+			$('.card_numer').css("transform","scale(1.12)");
+		});
+		$('#number').focusout(function(){
+			$('.card_numer').css("transform","scale(1.0)");
+		});
+		$("#datepicker").datepicker({
+			format: "yyyy",
+			viewMode: "years", 
+			minViewMode: "years"
+		});
+	</script>
+</body>
+</html>
